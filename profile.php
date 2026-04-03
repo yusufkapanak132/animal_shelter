@@ -456,7 +456,7 @@ $total_donated = array_sum(array_column($donations, 'amount'));
             
             <div class="checkbox-group">
                 <input type="checkbox" name="terms" id="donationTerms" required>
-                <label for="donationTerms">Съгласен/съгласна съм с условията за дарения</label>
+                <label for="donationTerms">Съгласен/съгласна съм с <a href="terms.php" target="_blank" style="color: var(--primary-color);">условията за дарения</a></label>
             </div>
             
             <button type="submit" class="btn btn-primary" style="width: 100%;">Дари сега</button>

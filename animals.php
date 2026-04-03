@@ -396,7 +396,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                 
                 <div class="checkbox-group">
                     <input type="checkbox" name="terms" id="cartTerms" required>
-                    <label for="cartTerms">Съгласен/съгласна съм с общите условия и политиката за поверителност</label>
+                    <label for="cartTerms">Съгласен/съгласна съм с <a href="terms.php" target="_blank" style="color: var(--primary-color);">Общите условия</a> и <a href="privacy.php" target="_blank" style="color: var(--primary-color);">Политиката за поверителност</a></label>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Направи поръчка</button>
@@ -438,7 +438,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                 
                 <div class="checkbox-group">
                     <input type="checkbox" name="terms" id="donationTerms" required>
-                    <label for="donationTerms">Съгласен/съгласна съм с условията за дарения</label>
+                    <label for="donationTerms">Съгласен/съгласна съм с <a href="terms.php" target="_blank" style="color: var(--primary-color);">условията за дарения</a></label>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Дари сега</button>
@@ -495,7 +495,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                 
                 <div class="checkbox-group">
                     <input type="checkbox" name="terms" id="adoptionTerms" required>
-                    <label for="adoptionTerms">Съгласен/съгласна съм с условията за осиновяване и приемам отговорността за животното</label>
+                    <label for="adoptionTerms">Съгласен/съгласна съм с <a href="terms.php" target="_blank" style="color: var(--primary-color);">условията за осиновяване</a> и приемам отговорността за животното</label>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Изпрати заявка</button>
