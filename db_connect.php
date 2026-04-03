@@ -2,7 +2,7 @@
 // db_connect.php
 session_start();
 
-$host = 'ftpupload.net';
+$host = 'sql100.infinityfree.com';
 $dbname = 'if0_41561056_animal_shelter';
 $username = 'if0_41561056';
 $password = 'zEtTS4ogv6NzCF5';
