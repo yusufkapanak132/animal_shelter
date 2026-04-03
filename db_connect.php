@@ -2,10 +2,10 @@
 // db_connect.php
 session_start();
 
-$host = 'localhost';
-$dbname = 'animal_shelter';
-$username = 'root';
-$password = '';
+$host = 'ftpupload.net';
+$dbname = 'if0_41561056_animal_shelter';
+$username = 'if0_41561056';
+$password = 'zEtTS4ogv6NzCF5';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
