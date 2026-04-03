@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userId = (function_exists('isLoggedIn') && isLoggedIn()) ? $_SESSION['user_id'] : null;
         $stmt->execute([$userId, $amount, $fullName, $email]);
         $donationId = $pdo->lastInsertId();
-        $baseUrl = 'http://localhost/nadejda';
+        $baseUrl = 'http://nadejda.free.nf';
         
         $checkout_session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
