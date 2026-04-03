@@ -25,8 +25,8 @@ $stats = [
 ];
 
 // Получаване на последните животни
-$stmt = $pdo->query("SELECT * FROM animals WHERE status = 'Налично' ORDER BY created_at DESC LIMIT 4");
-$featuredAnimals = $stmt->fetchAll();
+$stmt = $pdo->query("SELECT COUNT(*) as total FROM animals WHERE status = 'Налично'");
+$availableForAdoption = $stmt->fetch()['total'] ?? 100;
 // Валидация на сървъра
 if (!empty($fullName) && !empty($email) && !empty($subject) && !empty($message)) {
     
@@ -114,7 +114,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 <header class="hero">
     <div class="hero-content fade-in">
         <h1>Не купувай, осинови!</h1>
-        <p>Над 300 животни чакат своя втори шанс. Бъди героят, който ще промени живота им завинаги.</p>
+        <p>Над <?php echo $availableForAdoption;?> животни чакат своя втори шанс. Бъди героят, който ще промени живота им завинаги.</p>
         <a href="animals.php" class="btn btn-primary">Намери приятел</a>
         <a href="signal.php">
     <button class="btn btn-outline" style="color:white; border-color:white; margin-left:10px;">
