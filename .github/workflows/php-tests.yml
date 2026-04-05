@@ -26,9 +26,9 @@ jobs:
     - name: Run PHPUnit Tests
       run: vendor/bin/phpunit tests/
 
-  # НОВАТА СЕКЦИЯ ЗА АВТОМАТИЧНО КАЧВАНЕ
+  # СЕКЦИЯ ЗА АВТОМАТИЧНО КАЧВАНЕ
   deploy:
-    needs: test # Това гарантира, че кодът ще се качи САМО ако тестовете са зелени!
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
@@ -39,18 +39,18 @@ jobs:
       with:
         php-version: '8.2'
 
-    # Тук генерираме папката vendor, но БЕЗ тестовите библиотеки (за да е по-лека)
+    # Тук генерираме папката vendor
     - name: Build Production Vendor Folder
       run: composer install --no-dev --optimize-autoloader
 
-    # Това изпраща файловете към InfinityFree
+    # Изпращаме файловете към InfinityFree
     - name: FTP Deploy to InfinityFree
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /htdocs/ # Това е главната папка в InfinityFree
+        server-dir: /htdocs/
         exclude: |
           **/.git*
           **/.git*/**
