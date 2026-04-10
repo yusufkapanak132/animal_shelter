@@ -798,7 +798,7 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
 // Функция за бързо дарение
 function quickDonate(amount) {
     document.getElementById('donationAmount').value = amount;
-    document.getElementById('donationModal').style.display = 'block';
+    document.getElementById('donationModal').style.display = 'flex';
 }
 
 // Затваряне на модали при клик извън тях
