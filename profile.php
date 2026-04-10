@@ -14,10 +14,36 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 
-// Обработка на формата за промяна на запазен час
 $success_message = '';
 $error_message = '';
 
+// Обработка на изтриване на акаунт
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
+    $confirmation_input = trim($_POST['delete_confirmation'] ?? '');
+    $expected_phrase = 'ИЗТРИЙ ' . $user['full_name'];
+    
+    // Защита: администратор не може да бъде изтрит
+    if ($user['role'] === 'Администратор') {
+        $error_message = "Администраторският акаунт не може да бъде изтрит през потребителския панел.";
+    } elseif ($confirmation_input !== $expected_phrase) {
+        $error_message = "Потвърдителната фраза не съвпада. Акаунтът не е изтрит.";
+    } else {
+        try {
+            // Изтриване на потребителя (свързаните записи ще останат с NULL поради ON DELETE SET NULL)
+            $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+            $stmt->execute([$user_id]);
+            
+            // Прекратяване на сесията и пренасочване
+            session_destroy();
+            header('Location: index.php?account_deleted=1');
+            exit;
+        } catch (PDOException $e) {
+            $error_message = "Грешка при изтриване на акаунта: " . $e->getMessage();
+        }
+    }
+}
+
+// Обработка на формата за промяна на запазен час
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_appointment') {
     $appointment_id = $_POST['appointment_id'];
     $new_date = $_POST['new_date'];
@@ -178,6 +204,7 @@ $total_donated = array_sum(array_column($donations, 'amount'));
                         <li><a href="edit_profile.php"><i class="fas fa-user-edit"></i> Редактирай профила</a></li>
                         <li><a href="change_password.php"><i class="fas fa-key"></i> Смяна на парола</a></li>
                         <li><a href="verify_email.php"><i class="fas fa-envelope"></i> Активиране на имейл</a></li>
+                        <li><a href="#" onclick="openDeleteModal(); return false;"><i class="fas fa-trash-alt"></i> Изтриване на акаунта</a></li>
                         <li><a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Изход от профила</a></li>
                     </ul>
                 </div>
@@ -232,7 +259,7 @@ $total_donated = array_sum(array_column($donations, 'amount'));
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Подобрена форма за редактиране с календар и часове -->
+                                <!-- Форма за редактиране на час -->
                                 <div class="edit-form" id="form-<?php echo $adoption['appointment_id']; ?>">
                                     <form method="POST" id="edit-form-<?php echo $adoption['appointment_id']; ?>" onsubmit="return validateAndSubmitForm(<?php echo $adoption['appointment_id']; ?>)">
                                         <input type="hidden" name="action" value="update_appointment">
@@ -358,7 +385,6 @@ $total_donated = array_sum(array_column($donations, 'amount'));
     <li><a href="https://fontawesome.com/license/free">FontAwesome Лиценз</a></li>
     <li><a href="https://unsplash.com/license">Unsplash Лиценз</a></li>
     </ul>
-    </ul>
 </div>
         <div class="footer-col">
             <h3>Контакти</h3>
@@ -374,7 +400,38 @@ $total_donated = array_sum(array_column($donations, 'amount'));
     </div>
 </footer>
 
-<!-- Модални прозорци -->
+<!-- Модален прозорец за изтриване на акаунт -->
+<div id="deleteAccountModal" class="modal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeDeleteModal()">×</button>
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-exclamation-triangle" style="color: #c62828;"></i> Изтриване на профила</h3>
+        </div>
+        
+        <div id="deleteError" style="display:none; background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px;"></div>
+        
+        <p style="margin-bottom: 15px; color: #333;"><strong>Внимание:</strong> Това действие е необратимо! Всички ваши лични данни ще бъдат изтрити завинаги. Историята на поръчки, осиновявания и дарения ще бъде запазена анонимно за статистически цели.</p>
+        <p style="margin-bottom: 20px; background: #fff3cd; padding: 10px; border-radius: 5px; color: #856404;">
+            За да потвърдите изтриването, моля напишете фразата <strong>"ИЗТРИЙ <?php echo escape($user['full_name']); ?>"</strong> в полето по-долу.
+        </p>
+        
+        <form id="deleteAccountForm" method="POST" action="profile.php" onsubmit="return validateDeleteForm()">
+            <input type="hidden" name="delete_account" value="1">
+            <div class="form-group">
+                <label>Потвърждение *</label>
+                <input type="text" id="deleteConfirmation" name="delete_confirmation" placeholder="ИЗТРИЙ <?php echo escape($user['full_name']); ?>" required>
+                <small style="color: #666;">Въведете точно "ИЗТРИЙ <?php echo escape($user['full_name']); ?>"</small>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit" class="btn" style="background: #c62828; color: white; flex: 1;"><i class="fas fa-trash-alt"></i> Потвърди изтриването</button>
+                <button type="button" class="btn btn-outline" style="flex: 1;" onclick="closeDeleteModal()">Отказ</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Модални прозорци за количка и дарение -->
 <div id="cartModal" class="modal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeCart()">×</button>
@@ -480,17 +537,41 @@ function toggleMenu() {
     document.getElementById('navMenu').classList.toggle('active');
 }
 
+// Отваряне на модала за изтриване
+function openDeleteModal() {
+    document.getElementById('deleteAccountModal').style.display = 'block';
+    document.getElementById('deleteConfirmation').value = '';
+    document.getElementById('deleteError').style.display = 'none';
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteAccountModal').style.display = 'none';
+}
+
+// Валидация на формата за изтриване
+function validateDeleteForm() {
+    const input = document.getElementById('deleteConfirmation').value.trim();
+    const expected = 'ИЗТРИЙ <?php echo escape(addslashes($user['full_name'])); ?>';
+    const errorDiv = document.getElementById('deleteError');
+    
+    if (input !== expected) {
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Потвърдителната фраза не съвпада. Моля, въведете точния текст.';
+        errorDiv.style.display = 'block';
+        return false;
+    }
+    
+    return confirm('Сигурни ли сте, че искате да изтриете акаунта си? Това действие е необратимо!');
+}
+
 // Отваряне на формата за редактиране
 function openEditForm(appointmentId, currentDate, currentTime) {
     const form = document.getElementById('form-' + appointmentId);
     if (form.style.display === 'none' || form.style.display === '') {
         form.style.display = 'block';
-        // Задаваме текущите стойности
         const dateInput = document.getElementById('appointment_date_' + appointmentId);
         if (dateInput) {
             dateInput.value = currentDate;
         }
-        // Зареждаме свободните часове за текущата дата
         fetchTimeSlotsForEdit(appointmentId);
     }
 }
@@ -499,7 +580,6 @@ function openEditForm(appointmentId, currentDate, currentTime) {
 function closeEditForm(appointmentId) {
     const form = document.getElementById('form-' + appointmentId);
     form.style.display = 'none';
-    // Изчистваме избрания час
     delete selectedTimes[appointmentId];
 }
 
@@ -514,17 +594,14 @@ function fetchTimeSlotsForEdit(appointmentId) {
         return;
     }
     
-    // Показваме зареждане
     slotsContainer.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Зареждане на свободни часове...</div>';
     
-    // Изпращаме заявка за свободните часове
     fetch(`get_timeslots.php?date=${date}`)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
                 slotsContainer.innerHTML = `<div style="color: #c62828;">${data.error}</div>`;
             } else {
-                // Показваме бутоните за часове
                 slotsContainer.innerHTML = '';
                 
                 data.slots.forEach(slot => {
@@ -539,7 +616,6 @@ function fetchTimeSlotsForEdit(appointmentId) {
                         btn.title = "Този час вече е зает";
                     }
                     
-                    // Ако този час е текущо избраният, маркираме го
                     if (selectedTimes[appointmentId] === slot.time) {
                         btn.classList.add('selected');
                     }
@@ -556,14 +632,9 @@ function fetchTimeSlotsForEdit(appointmentId) {
 
 // Избиране на час за редактиране
 function selectTimeForEdit(appointmentId, btnElement, time) {
-    // Премахваме избрания клас от всички бутони в този контейнер
     const container = document.getElementById('time_slots_' + appointmentId);
     container.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
-    
-    // Добавяме избрания клас на текущия бутон
     btnElement.classList.add('selected');
-    
-    // Запазваме избрания час
     selectedTimes[appointmentId] = time;
 }
 
@@ -582,11 +653,9 @@ function validateAndSubmitForm(appointmentId) {
         return false;
     }
     
-    // Задаваме стойностите в скритите полета
     document.getElementById('new_date_' + appointmentId).value = dateInput.value;
     document.getElementById('new_time_' + appointmentId).value = selectedTime;
     
-    // Показваме потвърждение
     return confirm('Сигурни ли сте, че искате да промените часа на ' + 
                    new Date(dateInput.value).toLocaleDateString('bg-BG') + 
                    ' от ' + selectedTime + ' ч.?');
@@ -639,6 +708,23 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
 function quickDonate(amount) {
     document.getElementById('donationAmount').value = amount;
     document.getElementById('donationModal').style.display = 'block';
+}
+
+// Затваряне на модали при клик извън тях
+window.onclick = function(event) {
+    const deleteModal = document.getElementById('deleteAccountModal');
+    const cartModal = document.getElementById('cartModal');
+    const donationModal = document.getElementById('donationModal');
+    
+    if (event.target === deleteModal) {
+        deleteModal.style.display = 'none';
+    }
+    if (event.target === cartModal) {
+        cartModal.style.display = 'none';
+    }
+    if (event.target === donationModal) {
+        donationModal.style.display = 'none';
+    }
 }
 </script>
 </body>
