@@ -118,6 +118,70 @@ $total_donated = array_sum(array_column($donations, 'amount'));
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="profile.css">
+    <style>
+        /* Стилове за модален прозорец за изтриване на акаунт - центриран чрез flexbox */
+        .modal-delete {
+            display: none; /* Скрит по подразбиране */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Центриране на съдържанието */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-delete .modal-content {
+            background-color: #fefefe;
+            margin: 0; /* Премахваме margin: auto, тъй като flexbox се грижи за центрирането */
+            padding: 30px;
+            border: none;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-delete .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-delete .close-modal:hover,
+        .modal-delete .close-modal:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .modal-delete .modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-delete .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
@@ -401,7 +465,7 @@ $total_donated = array_sum(array_column($donations, 'amount'));
 </footer>
 
 <!-- Модален прозорец за изтриване на акаунт -->
-<div id="deleteAccountModal" class="modal">
+<div id="deleteAccountModal" class="modal-delete">
     <div class="modal-content">
         <button class="close-modal" onclick="closeDeleteModal()">×</button>
         <div class="modal-header">
@@ -431,7 +495,7 @@ $total_donated = array_sum(array_column($donations, 'amount'));
     </div>
 </div>
 
-<!-- Модални прозорци за количка и дарение -->
+<!-- Модални прозорци за количка и дарение (остават с клас "modal") -->
 <div id="cartModal" class="modal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeCart()">×</button>
@@ -539,7 +603,7 @@ function toggleMenu() {
 
 // Отваряне на модала за изтриване
 function openDeleteModal() {
-    document.getElementById('deleteAccountModal').style.display = 'block';
+    document.getElementById('deleteAccountModal').style.display = 'flex';
     document.getElementById('deleteConfirmation').value = '';
     document.getElementById('deleteError').style.display = 'none';
 }
