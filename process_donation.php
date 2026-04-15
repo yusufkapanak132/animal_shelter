@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'currency' => 'eur',
                     'unit_amount' => $amount * 100, 
                     'product_data' => [
-                        'name' => 'Дарение за Приют Надежда',
+                        'name' => 'Дарение за приют "Надежда"',
                         'description' => 'Дарение от ' . $fullName,
                     ],
                 ],

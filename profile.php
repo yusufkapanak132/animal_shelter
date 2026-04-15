@@ -446,7 +446,7 @@ $total_donated = array_sum(array_column($donations, 'amount'));
 <footer>
     <div class="footer-content">
         <div class="footer-col">
-            <h3>За Приют Надежда</h3>
+            <h3>За приют "Надежда"</h3>
             <p>Ние сме неправителствена организация, посветена на спасяването и лечението на бездомни животни.</p>
             <div class="social-icons">
                 <a href="https://www.facebook.com/yusuf.kapanak/"><i class="fab fa-facebook"></i></a>
