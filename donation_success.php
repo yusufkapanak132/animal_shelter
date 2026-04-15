@@ -51,7 +51,7 @@ if ($donationId > 0) {
 
     <div class="success-container fade-in">
         <i class="fas fa-check-circle success-icon"></i>
-        <h1 style="color: #333; margin-bottom: 15px;">Огромно Благодаря!</h1>
+        <h1 style="color: #333; margin-bottom: 15px;">Огромни благодарности!</h1>
         <p style="font-size: 1.2rem; color: #555; margin-bottom: 20px;">
             Вашето дарение от <strong><?php echo $amount; ?> €.</strong> беше прието успешно.
         </p>
