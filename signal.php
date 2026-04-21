@@ -465,7 +465,7 @@ $currentUser = function_exists('isLoggedIn') && isLoggedIn() && function_exists(
                     <div class="form-grid">
                         
                         <div class="form-group">
-                            <label>Вид животно *</label>
+                            <label>Вид животно </label>
                             <select name="animal_type" required>
                                 <option value="" disabled selected>Изберете вид...</option>
                                 <option value="куче">Куче</option>
@@ -483,7 +483,7 @@ $currentUser = function_exists('isLoggedIn') && isLoggedIn() && function_exists(
                         </div>
 
                         <div class="form-group full-width">
-                            <label>Адрес / Локация (описание) *</label>
+                            <label>Адрес / Локация (описание) </label>
                             <input type="text" name="location_address" placeholder="Напр. ул. Скопие 4, до парка..." required>
                         </div>
 
@@ -504,17 +504,17 @@ $currentUser = function_exists('isLoggedIn') && isLoggedIn() && function_exists(
                         </div>
 
                         <div class="form-group full-width">
-                            <label>Описание на състоянието *</label>
+                            <label>Описание на състоянието </label>
                             <textarea name="description" rows="4" placeholder="Разкажете ни повече за състоянието на животното (напр. ранено, уплашено, изглежда гладно, има ли малки)..." required></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label>Вашите Имена *</label>
+                            <label>Вашите Имена </label>
                             <input type="text" name="reporter_name" placeholder="Име и Фамилия" required value="<?php echo $currentUser ? (function_exists('escape') ? escape($currentUser['full_name']) : $currentUser['full_name']) : ''; ?>">
                         </div>
 
                         <div class="form-group">
-                            <label>Телефон за връзка *</label>
+                            <label>Телефон за връзка </label>
                             <input type="tel" name="reporter_phone" placeholder="089 123 4567" pattern="[0-9]{10}" maxlength="10" title="Точно 10 цифри" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required value="<?php echo $currentUser ? (function_exists('escape') ? escape($currentUser['phone']) : $currentUser['phone']) : ''; ?>">
                         </div>
 
@@ -613,23 +613,23 @@ $currentUser = function_exists('isLoggedIn') && isLoggedIn() && function_exists(
             
             <form id="cartForm" method="POST" action="process_order.php" style="margin-top: 20px;">
                 <div class="form-group">
-                    <label>Име и фамилия *</label>
+                    <label>Име и фамилия </label>
                     <input type="text" name="full_name" placeholder="Име Фамилия" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['full_name']) : ''; ?>">
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>Телефон *</label>
+                        <label>Телефон </label>
                         <input type="tel" name="phone" placeholder="089 123 4567" pattern="[0-9]{10}" maxlength="10" title="Точно 10 цифри" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="<?php echo isLoggedIn() ? escape(getCurrentUser()['phone']) : ''; ?>">
                     </div>
                     <div class="form-group">
-                        <label>Email *</label>
+                        <label>Email </label>
                         <input type="email" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Моля въведете валиден имейл" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['email']) : ''; ?>">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>Адрес за доставка *</label>
+                    <label>Адрес за доставка </label>
                     <textarea rows="3" name="address" placeholder="Адрес, град, пощенски код" required></textarea>
                 </div>
                 
@@ -666,12 +666,12 @@ $currentUser = function_exists('isLoggedIn') && isLoggedIn() && function_exists(
                 </div>
                 
                 <div class="form-group">
-                    <label>Име и фамилия *</label>
+                    <label>Име и фамилия </label>
                     <input type="text" name="full_name" placeholder="Име Фамилия" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['full_name']) : ''; ?>">
                 </div>
                 
                 <div class="form-group">
-                    <label>Email *</label>
+                    <label>Email </label>
                     <input type="email" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Моля въведете валиден имейл" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['email']) : ''; ?>">
                 </div>
                 

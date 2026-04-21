@@ -227,23 +227,23 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
             
             <form id="cartForm" method="POST" action="process_order.php" style="margin-top: 20px;">
                 <div class="form-group">
-                    <label>Име и фамилия *</label>
+                    <label>Име и фамилия </label>
                     <input type="text" name="full_name" placeholder="Име Фамилия" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['full_name']) : ''; ?>">
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>Телефон *</label>
+                        <label>Телефон </label>
                         <input type="tel" name="phone" placeholder="089 123 4567" pattern="[0-9]{10}" maxlength="10" title="Точно 10 цифри" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="<?php echo isLoggedIn() ? escape(getCurrentUser()['phone']) : ''; ?>">
                     </div>
                     <div class="form-group">
-                        <label>Email *</label>
+                        <label>Email </label>
                         <input type="email" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Моля въведете валиден имейл" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['email']) : ''; ?>">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>Адрес за доставка *</label>
+                    <label>Адрес за доставка </label>
                     <textarea rows="3" name="address" placeholder="Адрес, град, пощенски код" required></textarea>
                 </div>
                 
@@ -280,12 +280,12 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                 </div>
                 
                 <div class="form-group">
-                    <label>Име и фамилия *</label>
+                    <label>Име и фамилия </label>
                     <input type="text" name="full_name" placeholder="Име Фамилия" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['full_name']) : ''; ?>">
                 </div>
                 
                 <div class="form-group">
-                    <label>Email *</label>
+                    <label>Email </label>
                     <input type="email" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Моля въведете валиден имейл" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['email']) : ''; ?>">
                 </div>
                 

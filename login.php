@@ -229,12 +229,12 @@
                     <?php endif; ?>
 
                     <div class="form-group">
-                        <label><i class="fas fa-user" style="margin-right: 8px;"></i> Име и фамилия *</label>
+                        <label><i class="fas fa-user" style="margin-right: 8px;"></i> Име и фамилия </label>
                         <input type="text" name="full_name" class="form-control" placeholder="Иван Иванов" required value="<?php echo isset($_POST['full_name']) ? escape($_POST['full_name']) : ''; ?>">
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fas fa-envelope" style="margin-right: 8px;"></i> Имейл адрес *</label>
+                        <label><i class="fas fa-envelope" style="margin-right: 8px;"></i> Имейл адрес </label>
                         <input type="email" id="regEmail" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required value="<?php echo isset($_POST['email']) ? escape($_POST['email']) : ''; ?>">
                         <span id="emailStatus" class="validation-message"></span>
                     </div>
@@ -245,12 +245,12 @@
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fas fa-lock" style="margin-right: 8px;"></i> Парола *</label>
+                        <label><i class="fas fa-lock" style="margin-right: 8px;"></i> Парола </label>
                         <input type="password" name="password" class="form-control" placeholder="Минимум 8 символа" required>
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fas fa-lock" style="margin-right: 8px;"></i> Повтори парола *</label>
+                        <label><i class="fas fa-lock" style="margin-right: 8px;"></i> Повтори парола </label>
                         <input type="password" name="confirm_password" class="form-control" placeholder="Повторете паролата" required>
                     </div>
                     
@@ -332,23 +332,23 @@
                 
                 <form id="cartForm" method="POST" action="process_order.php" style="margin-top: 20px;">
                     <div class="form-group">
-                        <label>Име и фамилия *</label>
+                        <label>Име и фамилия </label>
                         <input type="text" name="full_name" placeholder="Име Фамилия" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['full_name']) : ''; ?>">
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
-                            <label>Телефон *</label>
+                            <label>Телефон </label>
                             <input type="tel" name="phone" placeholder="089 123 4567" pattern="[0-9]{10}" maxlength="10" title="Точно 10 цифри" required oninput="this.value=this.value.replace(/[^0-9]/g,'');" value="<?php echo isLoggedIn() ? escape(getCurrentUser()['phone']) : ''; ?>">
                         </div>
                         <div class="form-group">
-                            <label>Email *</label>
+                            <label>Email </label>
                             <input type="email" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Моля въведете валиден имейл" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['email']) : ''; ?>">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label>Адрес за доставка *</label>
+                        <label>Адрес за доставка </label>
                         <textarea rows="3" name="address" placeholder="Адрес, град, пощенски код" required></textarea>
                     </div>
                     
@@ -385,12 +385,12 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Име и фамилия *</label>
+                        <label>Име и фамилия </label>
                         <input type="text" name="full_name" placeholder="Име Фамилия" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['full_name']) : ''; ?>">
                     </div>
                     
                     <div class="form-group">
-                        <label>Email *</label>
+                        <label>Email </label>
                         <input type="email" name="email" placeholder="вашият@email.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Моля въведете валиден имейл" required value="<?php echo isLoggedIn() ? escape(getCurrentUser()['email']) : ''; ?>">
                     </div>
                     

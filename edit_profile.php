@@ -130,12 +130,12 @@ $user = $stmt->fetch();
 
             <form method="POST">
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label><i class="fas fa-user" style="margin-right: 8px;"></i> Име и фамилия <span style="color:red;">*</span></label>
+                    <label><i class="fas fa-user" style="margin-right: 8px;"></i> Име и фамилия <span style="color:red;"></span></label>
                     <input type="text" name="full_name" class="form-control" value="<?php echo htmlspecialchars($user['full_name']); ?>" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label><i class="fas fa-envelope" style="margin-right: 8px;"></i> Имейл адрес <span style="color:red;">*</span></label>
+                    <label><i class="fas fa-envelope" style="margin-right: 8px;"></i> Имейл адрес <span style="color:red;"></span></label>
                     <input type="email" id="editEmail" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
                     <span id="emailStatus" class="validation-message"></span>
                 </div>
